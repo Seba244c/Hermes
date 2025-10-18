@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Run",
+        "cmd": "./scripts/run.py"
+    },
+    {
+        "name": "Configure",
+        "cmd": "./scripts/configure.py"
+    }
+]

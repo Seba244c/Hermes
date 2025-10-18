@@ -1,0 +1,9 @@
+---
+Language: Cpp
+IndentWidth: 4
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^(<|"mpch.h")'
+    Priority: -1000
+  - Regex: '^"(Mana)/'
+    Priority: 0

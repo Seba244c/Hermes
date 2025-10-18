@@ -1,2 +1,6 @@
 .cache/
 build/
+result
+compile_commands.json
+qmldir
+CMakeUserPresets.json
