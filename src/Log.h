@@ -2,6 +2,7 @@
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 
+#include <QQuickItem>
 #include <memory>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
@@ -12,9 +13,26 @@ class Log {
     static void Init();
 
     static std::shared_ptr<spdlog::logger> &GetLogger() { return s_Logger; }
+    static std::shared_ptr<spdlog::logger> &GetQMLLogger() {
+        return s_QMLLogger;
+    }
 
   private:
     static std::shared_ptr<spdlog::logger> s_Logger;
+    static std::shared_ptr<spdlog::logger> s_QMLLogger;
+};
+
+class QmlLogger : public QQuickItem {
+    Q_OBJECT
+  public:
+    explicit QmlLogger(QQuickItem *iParent = 0);
+
+    // Q_INVOKABLE log method will be called by Qml source.
+    Q_INVOKABLE void Trace(const QString &iDataToLog) const;
+    Q_INVOKABLE void Info(const QString &iDataToLog) const;
+    Q_INVOKABLE void Warn(const QString &iDataToLog) const;
+    Q_INVOKABLE void Error(const QString &iDataToLog) const;
+    Q_INVOKABLE void Critical(const QString &iDataToLog) const;
 };
 } // namespace Hermes
 

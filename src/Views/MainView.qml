@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import Hermes.Models
+import Hermes.Log
 
 Window {
     visible: true
@@ -11,6 +12,10 @@ Window {
 
     FileListModel {
         id: fileListModel
+    }
+
+    Logger {
+        id: logger
     }
 
     ColumnLayout {
@@ -25,7 +30,7 @@ Window {
             Layout.fillWidth: true
 
             onAccepted: {
-                fileListModel.currentPath = text
+                fileListModel.currentPath = text;
             }
         }
 
@@ -41,7 +46,7 @@ Window {
                 height: 40
                 color: index % 2 === 0 ? "#f0f0f0" : "#ffffff"
 
-                Row {
+                RowLayout {
                     id: fileRow
                     spacing: 10
                     anchors.verticalCenter: parent.verticalCenter
@@ -50,6 +55,26 @@ Window {
                         id: fileName
                         text: name  // comes from model role
                         font.pointSize: 14
+
+                        MouseArea {
+                            id: fileNameMouseArea
+                            anchors.fill: parent
+
+                            onClicked: {
+                                logger.Info("Clicked on filename");
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                        MouseArea {
+                            id: fileBlankMouseArea
+                            anchors.fill: parent
+                            onClicked: {
+                                logger.Info("Clicked on file-blank");
+                            }
+                        }
                     }
                 }
             }
