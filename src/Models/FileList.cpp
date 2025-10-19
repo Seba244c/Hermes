@@ -1,10 +1,11 @@
 #include "FileList.h"
 
+#include "Engine/Engine.h"
 #include "Log.h"
 
 namespace Hermes {
 FileListModel::FileListModel(QObject *parent) : QAbstractListModel(parent) {
-    SetCurrentPath("/home/ssnoer/Dev");
+    SetCurrentPath(QString(HermesEngine::Instance()->GetCurrentPath().c_str()));
 }
 
 // Required QAbstractListModel overrides
@@ -41,9 +42,9 @@ QHash<int, QByteArray> FileListModel::roleNames() const {
 void FileListModel::Refresh() { LoadDirectory(m_CurrentPath); }
 
 void FileListModel::SetCurrentPath(const QString &path) {
-    TRACE("Changed path to {}", path.toStdString());
-    if (m_CurrentPath == path)
-        return;
+    if (!HermesEngine::Instance()->SetCurrentPath(path) &&
+        !m_CurrentPath.isEmpty())
+        return; // Return if the path didn't change
 
     m_CurrentPath = path;
     emit currentPathChanged();
@@ -53,7 +54,7 @@ void FileListModel::SetCurrentPath(const QString &path) {
 void FileListModel::LoadDirectory(const QString &path) {
     beginResetModel();
 
-    INFO("Openening Directory {}", path.toStdString());
+    TRACE("Loading Directory {}", path.toStdString());
     std::filesystem::path currentDir(path.toStdString());
     Hermes::ImmediateFileAPI api;
     m_Files = api.Files(currentDir);

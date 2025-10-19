@@ -14,6 +14,7 @@ Window {
     }
 
     ColumnLayout {
+        id: fileListColumn
         anchors.fill: parent
         spacing: 0
 
@@ -29,21 +30,24 @@ Window {
         }
 
         ListView {
+            id: fileList
             model: fileListModel
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
             delegate: Rectangle {
-                width: parent.width
+                width: parent ? parent.width : 0
                 height: 40
                 color: index % 2 === 0 ? "#f0f0f0" : "#ffffff"
 
                 Row {
+                    id: fileRow
                     spacing: 10
                     anchors.verticalCenter: parent.verticalCenter
 
                     Text {
+                        id: fileName
                         text: name  // comes from model role
                         font.pointSize: 14
                     }

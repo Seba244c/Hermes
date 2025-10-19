@@ -3,12 +3,12 @@
 #include <QQuickStyle>
 #include <qqml.h>
 
-#include "Log.h"
+#include "Engine/Engine.h"
 #include "Models/FileList.h"
 
 int main(int argc, char *argv[]) {
     // Start Engine
-    Hermes::Log::Init();
+    Hermes::HermesEngine hermes;
 
     // Setup app
     QGuiApplication app(argc, argv);

@@ -2,6 +2,9 @@
 import os
 import subprocess
 
+conan_build_type = "Debug"
+preset = "conan-debug"
+
 env = os.environ.copy()
 env["CC"] = "clang"
 env["CXX"] = "clang++"
@@ -14,7 +17,7 @@ subprocess.run(
         "--output-folder=build",
         "--build=missing",
         "-s",
-        "build_type=Debug",
+        "build_type=" + conan_build_type,
     ],
     env=env,
 )
@@ -23,7 +26,7 @@ subprocess.run(
     [
         "cmake",
         "--preset",
-        "conan-debug",
+        preset,
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-B",
         "./build/",
