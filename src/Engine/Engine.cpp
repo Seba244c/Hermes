@@ -7,7 +7,9 @@ HermesEngine *HermesEngine::s_Instance;
 
 void HermesEngine::PrintDiagnostics() {
     INFO("Running Hermes v. git");
-    INFO("OS: Linux");
+    INFO("OS: {}", m_OS->GetName());
+    INFO("OS Variant: {}", m_OS->GetVariant());
+    INFO("OS Version: {}", m_OS->GetVersion());
 }
 
 HermesEngine::HermesEngine() {
@@ -16,10 +18,8 @@ HermesEngine::HermesEngine() {
 
     // Log system configuration
     Hermes::Log::Init();
+    m_OS = GetOSApi();
     PrintDiagnostics();
-
-    // Initialize
-    m_OS = std::make_unique<LinuxAPI>();
 
     // Set to start path
     OpenStartDir();

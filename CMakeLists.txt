@@ -60,3 +60,14 @@ target_sources(hermes
 
 # install
 install(TARGETS hermes DESTINATION bin)
+
+# compiler definitions
+if(WIN32)
+    target_compile_definitions(hermes PUBLIC HERMES_PLATFORM_WIN)
+    message( FATAL_ERROR "Windows is not yet supported!" )
+elseif(APPLE)
+target_compile_definitions(hermes PUBLIC HERMES_PLATFORM_APPLE)
+    message( FATAL_ERROR "Windows is not yet supported!" )
+elseif(UNIX)
+target_compile_definitions(hermes PUBLIC HERMES_PLATFORM_LINUX)
+endif()
