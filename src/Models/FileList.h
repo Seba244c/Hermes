@@ -19,6 +19,7 @@ class FileListModel : public QAbstractListModel {
     explicit FileListModel(QObject *parent = nullptr);
 
     Q_INVOKABLE void Refresh();
+    Q_INVOKABLE void Open(const QString &path);
 
     // Required QAbstractListModel overrides
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

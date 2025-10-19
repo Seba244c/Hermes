@@ -32,6 +32,10 @@ class HermesEngine {
     bool SetCurrentPath(const QString &path);
     std::filesystem::path GetCurrentPath() { return m_CurrentPath; }
 
+    void OpenFile(std::string_view path);
+    void OpenFile(std::filesystem::path path);
+    void OpenFile(const QString &path);
+
   private:
     void PrintDiagnostics();
     void OpenStartDir();

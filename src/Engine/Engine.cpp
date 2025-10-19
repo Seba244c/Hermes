@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "Engine.h"
 
 #include "Log.h"
@@ -62,5 +64,16 @@ bool HermesEngine::SetCurrentPath(std::filesystem::path path) {
     INFO("Changed engine path to {}", path.string());
     m_CurrentPath = path;
     return true;
+}
+
+void HermesEngine::OpenFile(std::string_view path) {
+    OpenFile(std::filesystem::path(path));
+}
+void HermesEngine::OpenFile(const QString &path) {
+    OpenFile(std::filesystem::path(path.toStdString()));
+}
+void HermesEngine::OpenFile(std::filesystem::path path) {
+    INFO("Opening file {}", path.string());
+    m_OS->Open(path);
 }
 } // namespace Hermes

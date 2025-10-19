@@ -55,26 +55,16 @@ Window {
                         id: fileName
                         text: name  // comes from model role
                         font.pointSize: 14
-
-                        MouseArea {
-                            id: fileNameMouseArea
-                            anchors.fill: parent
-
-                            onClicked: {
-                                logger.Info("Clicked on filename");
-                            }
-                        }
                     }
+                }
 
-                    Item {
-                        Layout.fillWidth: true
-                        MouseArea {
-                            id: fileBlankMouseArea
-                            anchors.fill: parent
-                            onClicked: {
-                                logger.Info("Clicked on file-blank");
-                            }
-                        }
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: isFolder ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                    onDoubleClicked: {
+                        fileListModel.Open(name + (isFolder ? "/" : ""));
                     }
                 }
             }

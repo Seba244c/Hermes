@@ -1,3 +1,5 @@
+#include <iostream>
+#include <unistd.h>
 #ifdef HERMES_PLATFORM_LINUX
 #include <cstdlib>
 #include <filesystem>
@@ -162,6 +164,34 @@ LinuxAPI::LinuxAPI() {
                  xdgUserDirs);
     GetDirectory(m_PathTemplates, "XDG_TEMPLATES_DIR", "Templates",
                  xdgUserDirs);
+}
+
+void LinuxAPI::Open(const std::filesystem::path file) {
+    pid_t pid = fork();
+    if (pid == 0) { // We are the new process
+
+        // We must first detach from our parent process
+        if (setsid() == -1) { // -1 indicates an error, so we close up shop
+            std::cout
+                << "Child: An error occured trying to split off from the main "
+                   "process. Exiting."
+                << std::endl;
+            exit(1);
+        }
+        std::cout << "Child: Splitting up from parent process" << std::endl;
+
+        close(STDIN_FILENO);
+        close(STDOUT_FILENO);
+        close(STDERR_FILENO);
+
+        // Open the file
+        execlp("xdg-open", "xdg-open", file.c_str(), (char *)NULL);
+
+        exit(0); // End this new process.
+
+    } else if (pid < 0) {
+        ERROR("Failed to fork process!");
+    }
 }
 
 std::string_view LinuxAPI::GetUserFolderPath(UserFolderType type) {

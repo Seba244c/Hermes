@@ -47,6 +47,9 @@ void FileListModel::SetCurrentPath(const QString &path) {
         return; // Return if the path didn't change
 
     m_CurrentPath = path;
+    if (!m_CurrentPath.endsWith('/'))
+        m_CurrentPath = m_CurrentPath + "/";
+
     emit currentPathChanged();
     LoadDirectory(path);
 }
@@ -60,5 +63,12 @@ void FileListModel::LoadDirectory(const QString &path) {
     m_Files = api.Files(currentDir);
 
     endResetModel();
+}
+
+void FileListModel::Open(const QString &path) {
+    if (path.endsWith("/"))
+        SetCurrentPath(m_CurrentPath + path);
+    else
+        HermesEngine::Instance()->OpenFile(m_CurrentPath + path);
 }
 } // namespace Hermes

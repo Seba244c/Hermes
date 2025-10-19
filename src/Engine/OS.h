@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 #include <string>
 namespace Hermes {
@@ -19,6 +20,8 @@ class OSApi {
   public:
     virtual ~OSApi() = default;
 
+    virtual void Open(const std::filesystem::path file) = 0;
+
     virtual std::string_view GetName() = 0;
     virtual std::string_view GetVariant() = 0;
     virtual std::string_view GetVersion() = 0;
@@ -33,6 +36,8 @@ std::unique_ptr<OSApi> GetOSApi();
 class LinuxAPI : public OSApi {
   public:
     LinuxAPI();
+
+    void Open(const std::filesystem::path file) override;
 
     std::string_view GetName() override { return "Linux"; }
     std::string_view GetVariant() override;
