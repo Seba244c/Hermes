@@ -1,4 +1,5 @@
 .cache/
+__pycache__
 build/
 result
 compile_commands.json

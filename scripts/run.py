@@ -2,12 +2,12 @@
 import os
 import subprocess
 
-preset = "conan-debug"
+import generated
 
 env = os.environ.copy()
 env["CC"] = "/usr/bin/clang"
 env["CXX"] = "/usr/bin/clang++"
 
 os.chdir("build/")
-subprocess.run(["cmake", "--build", "--preset", preset], env=env)
+subprocess.run(["cmake", "--build", "--preset", generated.preset], env=env)
 os.system("./hermes")
