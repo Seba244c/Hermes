@@ -184,10 +184,8 @@ void LinuxAPI::Open(const std::filesystem::path file) {
         close(STDOUT_FILENO);
         close(STDERR_FILENO);
 
-        // Open the file
-        execlp("xdg-open", "xdg-open", file.c_str(), (char *)NULL);
-
-        exit(0); // End this new process.
+        // Open the file and exit with the appropriate status code
+        exit(execlp("xdg-open", "xdg-open", file.c_str(), (char *)NULL));
 
     } else if (pid < 0) {
         ERROR("Failed to fork process!");

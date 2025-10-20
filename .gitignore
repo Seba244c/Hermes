@@ -1,4 +1,6 @@
 .cache/
+.flatpak-builder/
+repo/
 __pycache__
 build/
 result

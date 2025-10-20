@@ -6,8 +6,8 @@ import Hermes.Log
 
 Window {
     visible: true
-    width: 400
-    height: 500
+    width: 1280
+    height: 800
     title: "Hermes"
 
     FileListModel {
@@ -18,55 +18,56 @@ Window {
         id: logger
     }
 
-    ColumnLayout {
-        id: fileListColumn
+    // The main view is split up into to columns
+    // The left column is for places
+    // The right column is for the filelist and navigation
+    RowLayout {
         anchors.fill: parent
         spacing: 0
 
-        TextInput {
-            id: pathInput
-            text: fileListModel.currentPath
+        ColumnLayout {
+            id: mainViewLeft
+            Layout.preferredWidth: 200
+            Layout.maximumWidth: 200
 
-            Layout.fillWidth: true
+            spacing: 0
 
-            onAccepted: {
-                fileListModel.currentPath = text;
+            Rectangle {
+                Layout.minimumHeight: 50
+                Layout.preferredHeight: 50
+                Layout.fillWidth: true
+                color: 'red'
+            }
+
+            Rectangle {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                color: 'blue'
             }
         }
 
-        ListView {
-            id: fileList
-            model: fileListModel
-
+        ColumnLayout {
+            id: mainViewRight
             Layout.fillWidth: true
-            Layout.fillHeight: true
 
-            delegate: Rectangle {
-                width: parent ? parent.width : 0
-                height: 40
-                color: index % 2 === 0 ? "#f0f0f0" : "#ffffff"
+            spacing: 0
 
-                RowLayout {
-                    id: fileRow
-                    spacing: 10
-                    anchors.verticalCenter: parent.verticalCenter
+            TextInput {
+                id: pathInput
+                text: fileListModel.currentPath
 
-                    Text {
-                        id: fileName
-                        text: name  // comes from model role
-                        font.pointSize: 14
-                    }
+                Layout.minimumHeight: 50
+                Layout.preferredHeight: 50
+                Layout.fillWidth: true
+
+                onAccepted: {
+                    fileListModel.currentPath = text;
                 }
+            }
 
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: isFolder ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-                    onDoubleClicked: {
-                        fileListModel.Open(name + (isFolder ? "/" : ""));
-                    }
-                }
+            FileListView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
             }
         }
     }

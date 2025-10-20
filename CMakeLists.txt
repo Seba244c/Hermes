@@ -39,13 +39,14 @@ file(GLOB_RECURSE hermesModules
 )
 file(GLOB_RECURSE hermesQML
     RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
-    "src/*.qml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.qml"
 )
 qt_add_qml_module(hermes
     URI Hermes
     VERSION 1.0
     QML_FILES
     ${hermesQML}
+    NO_IMPORT_SCAN
 )
 
 target_sources(hermes

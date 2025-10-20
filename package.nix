@@ -8,7 +8,7 @@ stdenv.mkDerivation {
         "^src.*"
         "^qml.*"
         "CMakeLists.txt"
-        "resources.qrc"
+        "conanfile.txt"
     ];
 
     nativeBuildInputs = with pkgs; [
