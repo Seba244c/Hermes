@@ -9,6 +9,7 @@ Window {
     width: 1280
     height: 800
     title: "Hermes"
+    color: palette.window
 
     FileListModel {
         id: fileListModel
@@ -33,16 +34,56 @@ Window {
             spacing: 0
 
             Rectangle {
+                // This is the name of the application and a menu button
                 Layout.minimumHeight: 50
                 Layout.preferredHeight: 50
                 Layout.fillWidth: true
-                color: 'red'
+                color: palette.mid
+
+                Stroke {
+                    strokeRight: 1
+                    strokeColor: palette.light
+                }
+                Stroke {
+                    strokeBottom: 1
+                    strokeColor: palette.midlight
+                }
+
+                Row {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
+                    spacing: 8
+                    Layout.fillHeight: true
+
+                    Text {
+                        id: hermesTitle
+                        verticalAlignment: Text.AlignVCenter
+                        color: palette.text
+
+                        text: qsTr("Hermes")
+                        font.family: qsTr('Inter')
+                        font.styleName: qsTr('Medium')
+                        font.pixelSize: 28
+                    }
+
+                    Rectangle {
+                        width: 35
+                        height: 35
+                        color: 'black'
+                    }
+                }
             }
 
             Rectangle {
+                // places
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                color: 'blue'
+                color: palette.mid
+
+                Stroke {
+                    strokeRight: 1
+                    strokeColor: palette.light
+                }
             }
         }
 
@@ -52,16 +93,39 @@ Window {
 
             spacing: 0
 
-            TextInput {
-                id: pathInput
-                text: fileListModel.currentPath
-
+            Rectangle {
                 Layout.minimumHeight: 50
                 Layout.preferredHeight: 50
                 Layout.fillWidth: true
+                color: palette.base
 
-                onAccepted: {
-                    fileListModel.currentPath = text;
+                RowLayout {
+                    anchors.fill: parent
+                    spacing: 14
+
+                    Item{}
+                    Rectangle {
+                        Layout.preferredHeight: 30
+                        Layout.minimumWidth: 100
+                        Layout.fillWidth: true
+                        radius: 10
+                        color: palette.midlight
+                        TextInput {
+                            id: pathInput
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: 10
+                            width: parent.width - 20
+
+                            text: fileListModel.currentPath
+                            color: palette.text
+                            selectionColor: palette.highlightedText
+                            onAccepted: {
+                                fileListModel.currentPath = text;
+                            }
+                        }
+                    }
+
+                    Item{}
                 }
             }
 

@@ -6,7 +6,7 @@ stdenv.mkDerivation {
     name = "hermes";
     src = lib.sourceByRegex ./. [
         "^src.*"
-        "^qml.*"
+        "^resources.*"
         "CMakeLists.txt"
         "conanfile.txt"
     ];

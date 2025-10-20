@@ -10,18 +10,21 @@ ListView {
     delegate: Rectangle {
         width: parent ? parent.width : 0
         height: 40
-        color: index % 2 === 0 ? "#f0f0f0" : "#ffffff"
+        color: index % 2 === 0 ? palette.base : palette.alternateBase
 
         RowLayout {
             id: fileRow
             spacing: 10
             anchors.verticalCenter: parent.verticalCenter
 
+            Item {}
             Text {
                 id: fileName
                 text: name  // comes from model role
-                font.pointSize: 14
+                font.pointSize: 11
+                color: palette.text
             }
+            Item{}
         }
 
         MouseArea {
