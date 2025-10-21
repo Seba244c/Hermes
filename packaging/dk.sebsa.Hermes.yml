@@ -1,0 +1,15 @@
+id: dk.sebsa.Hermes
+runtime: org.kde.Platform
+runtime-version: '6.4'
+sdk: org.kde.Sdk
+command: hermes
+modules:
+  - name: hermes
+    buildsystem: cmake-ninja
+    build-commands:
+      - install -Dm755 hello.sh /app/bin/hermes
+    sources:
+      - type: script
+        dest-filename: hello.sh
+        commands:
+          - echo "Hello world, from a sandbox"

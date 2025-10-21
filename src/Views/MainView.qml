@@ -5,6 +5,7 @@ import Hermes.Models
 import Hermes.Log
 
 Window {
+    id: main
     visible: true
     width: 1280
     height: 800
@@ -94,44 +95,10 @@ Window {
 
             spacing: 0
 
-            Rectangle {
+            NavigationBar {
                 Layout.minimumHeight: 50
                 Layout.preferredHeight: 50
                 Layout.fillWidth: true
-                color: palette.base
-
-                RowLayout {
-                    // Navigation
-                    anchors.fill: parent
-                    spacing: 14
-                    z: 10
-
-                    Item {}
-                    Rectangle {
-                        Layout.preferredHeight: 30
-                        Layout.minimumWidth: 100
-                        Layout.fillWidth: true
-                        z: 10
-                        radius: 10
-                        color: palette.midlight
-                        TextInput {
-                            id: pathInput
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: 10
-                            z: 10
-                            width: parent.width - 20
-
-                            text: fileListModel.currentPath
-                            color: palette.text
-                            selectionColor: palette.highlightedText
-                            onAccepted: {
-                                fileListModel.currentPath = text;
-                            }
-                        }
-                    }
-
-                    Item {}
-                }
             }
 
             FileListView {

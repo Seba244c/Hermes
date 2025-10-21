@@ -9,7 +9,7 @@ project(Spellrite DESCRIPTION "A modern C++ file-explorer" VERSION 1.0.0 LANGUAG
 
 # Deps
 set(CMAKE_AUTORCC ON)
-find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2 Qml)
+find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2 Qml Svg)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # Executable
@@ -25,6 +25,7 @@ target_link_libraries(hermes
     Qt6::Quick
     Qt6::Qml
     Qt6::QuickControls2
+    Qt6::Svg
     spdlog::spdlog
 )
 

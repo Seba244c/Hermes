@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "FileList.h"
 
 #include "Engine/Engine.h"
@@ -5,7 +7,12 @@
 
 namespace Hermes {
 FileListModel::FileListModel(QObject *parent) : QAbstractListModel(parent) {
-    SetCurrentPath(QString(HermesEngine::Instance()->GetCurrentPath().c_str()));
+    SetCurrentPath(HermesEngine::Instance()->GetCurrentPath().c_str());
+    connect(
+        HermesEngine::Instance(), &HermesEngine::currentPathChanged, [this]() {
+            this->SetCurrentPath(
+                QString(HermesEngine::Instance()->GetCurrentPath().c_str()));
+        });
 }
 
 // Required QAbstractListModel overrides
@@ -42,10 +49,6 @@ QHash<int, QByteArray> FileListModel::roleNames() const {
 void FileListModel::Refresh() { LoadDirectory(m_CurrentPath); }
 
 void FileListModel::SetCurrentPath(const QString &path) {
-    if (!HermesEngine::Instance()->SetCurrentPath(path) &&
-        !m_CurrentPath.isEmpty())
-        return; // Return if the path didn't change
-
     m_CurrentPath = path;
     if (!m_CurrentPath.endsWith('/'))
         m_CurrentPath = m_CurrentPath + "/";
@@ -67,7 +70,7 @@ void FileListModel::LoadDirectory(const QString &path) {
 
 void FileListModel::Open(const QString &path) {
     if (path.endsWith("/"))
-        SetCurrentPath(m_CurrentPath + path);
+        HermesEngine::Instance()->SetCurrentPath(m_CurrentPath + path);
     else
         HermesEngine::Instance()->OpenFile(m_CurrentPath + path);
 }

@@ -4,11 +4,12 @@
 #include <QGuiApplication>
 #include <QPalette>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QQuickItem>
 #include <QQuickStyle>
 #include <qfont.h>
 #include <qfontdatabase.h>
 #include <qqml.h>
-#include <qquickitem.h>
 
 #include "Appearence/Theme.h"
 #include "Engine/Engine.h"
@@ -19,6 +20,7 @@ void RegisterTypes() {
     qmlRegisterType<Hermes::FileListModel>("Hermes.Models", 1, 0,
                                            "FileListModel");
     qmlRegisterType<Hermes::QmlLogger>("Hermes.Log", 1, 0, "Logger");
+    qmlRegisterType<Hermes::HermesEngine>("Hermes", 1, 0, "Engine");
 }
 
 void RegisterResources() {
@@ -42,14 +44,13 @@ int main(int argc, char *argv[]) {
     // Setup app
     QGuiApplication app(argc, argv);
     RegisterResources();
+    RegisterTypes();
 
     // Font and themeing
     auto defaultFont = QFontDatabase::font("Inter", "Regular", 12);
     app.setFont(defaultFont);
 
-    QQuickStyle::setStyle("Fusion");
     Hermes::Themes::CatppuccinMachiatto().Apply(app);
-    TRACE("{}", app.palette().base().color().red());
 
     // Engine
     QQmlApplicationEngine engine;
@@ -60,9 +61,9 @@ int main(int argc, char *argv[]) {
             QCoreApplication::exit(-1);
         },
         Qt::QueuedConnection);
-    RegisterTypes();
 
     // Load QML View
+    engine.rootContext()->setContextProperty("engine", &hermes);
     engine.loadFromModule("Hermes", "MainView");
 
     return app.exec();

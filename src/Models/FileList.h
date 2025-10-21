@@ -7,8 +7,7 @@
 namespace Hermes {
 class FileListModel : public QAbstractListModel {
     Q_OBJECT
-    Q_PROPERTY(QString currentPath READ CurrentPath WRITE SetCurrentPath NOTIFY
-                   currentPathChanged)
+    Q_PROPERTY(QString currentPath READ CurrentPath NOTIFY currentPathChanged)
 
   public:
     enum FileRoles {

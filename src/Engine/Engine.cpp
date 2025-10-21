@@ -14,7 +14,7 @@ void HermesEngine::PrintDiagnostics() {
     INFO("OS Version: {}", m_OS->GetVersion());
 }
 
-HermesEngine::HermesEngine() {
+HermesEngine::HermesEngine(QQuickItem *parent) : QQuickItem(parent) {
     assert(!s_Instance);
     s_Instance = this;
 
@@ -63,6 +63,8 @@ bool HermesEngine::SetCurrentPath(std::filesystem::path path) {
 
     INFO("Changed engine path to {}", path.string());
     m_CurrentPath = path;
+    currentPathChanged();
+    canGoUpChanged();
     return true;
 }
 
@@ -76,4 +78,18 @@ void HermesEngine::OpenFile(std::filesystem::path path) {
     INFO("Opening file {}", path.string());
     m_OS->Open(path);
 }
+bool HermesEngine::CanGoUp() { return m_CurrentPath.has_parent_path(); }
+bool HermesEngine::CanGoForward() { return false; }
+bool HermesEngine::CanGoBack() { return false; }
+void HermesEngine::GoUp() {
+    auto parentPath = m_CurrentPath.parent_path();
+
+    if (m_CurrentPath.string().ends_with("/")) // To handle trailing slashes
+        parentPath = parentPath.parent_path();
+
+    INFO("Going up to parent path: {}", parentPath.string());
+    SetCurrentPath(parentPath);
+}
+void HermesEngine::GoForward() { WARN("Not implemented"); }
+void HermesEngine::GoBack() { WARN("Not implemented"); }
 } // namespace Hermes
