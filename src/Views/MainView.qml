@@ -87,9 +87,10 @@ Window {
             }
         }
 
-        ColumnLayout {
+        ColumnLayout { // Filelist and nagivation
             id: mainViewRight
             Layout.fillWidth: true
+            clip: true
 
             spacing: 0
 
@@ -100,20 +101,24 @@ Window {
                 color: palette.base
 
                 RowLayout {
+                    // Navigation
                     anchors.fill: parent
                     spacing: 14
+                    z: 10
 
-                    Item{}
+                    Item {}
                     Rectangle {
                         Layout.preferredHeight: 30
                         Layout.minimumWidth: 100
                         Layout.fillWidth: true
+                        z: 10
                         radius: 10
                         color: palette.midlight
                         TextInput {
                             id: pathInput
                             anchors.verticalCenter: parent.verticalCenter
                             x: 10
+                            z: 10
                             width: parent.width - 20
 
                             text: fileListModel.currentPath
@@ -125,13 +130,14 @@ Window {
                         }
                     }
 
-                    Item{}
+                    Item {}
                 }
             }
 
             FileListView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                clip: true
             }
         }
     }
